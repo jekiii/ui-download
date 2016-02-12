@@ -33,7 +33,7 @@ export default Ember.Component.extend({
       const {data, filename, elementId, charset, mime} = this.getProperties('data','filename','elementId', 'charset', 'mime');
       // Prefer FileSaver strategy (should work on all modern browsers)
       if(this.get('supportsFileSaver')) {
-        let blob = new Blob([data], {type: `${mime};charset=${charset}`});
+        let blob = new Blob([decodeURIComponent(data)], {type: `${mime};charset=${charset}`});
         window.saveAs(blob, filename);
       } else {
         if(window.navigator.msSaveOrOpenBlob) {
