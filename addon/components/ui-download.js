@@ -38,10 +38,9 @@ export default Ember.Component.extend({
             blob = new Blob([data], {type: `${mime};charset=${charset}`});
         }
         catch (e) {
-            // IE 10 Needs a byte array
+            // IE 10 hack
             if (e.name == "InvalidStateError") {
-                var byteArray = new Uint8Array(data);
-                blob = new Blob([byteArray.buffer], {type: `${mime};charset=${charset}`});
+                blob = new Blob([decodeURIComponent(encodeURIComponent(data))], {type: `${mime};charset=${charset}`});
             }
         }
         window.saveAs(blob, filename);
